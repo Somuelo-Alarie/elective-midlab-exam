@@ -418,14 +418,16 @@ No AI output was committed without a group member reading and testing it. All fi
      who verified the fix, and add any other issues you found yourselves. -->
 
 | Task # | Identified AI Flaw / Limitation | Manual Correction Applied | Member Responsible |
-|---|---|---|---|
-| Task 1 | AI design assumed a full ASP.NET Core API wired to the UI within 3 hours, which is optimistic for our team. | Scoped the prototype: frontend runs on in-memory data; backend delivered as a tested class library. Documented in the grounding evaluation. | Member 1 |
-| Task 2 | First draft gave `aria-label` text that did not match the visible labels (e.g. radio labelled "1st" but announced as "First year"; filter labelled "Show category" but announced as "Filter events by category"), failing WCAG 2.5.3 Label in Name for voice-control users. | Rewrote each `aria-label` to begin with its visible label text; changed radio labels to "1st year" etc. | Member 2 |
-| Task 2 | Color-contrast ratios written in the CSS comment were estimates and several were wrong (e.g. ink on yellow stated 10.9:1, actual 10.3:1). | Recomputed every pair with the WCAG luminance formula and corrected the comment; all pairs still pass AA. | Member 2 |
-| Task 2 | Admin attendee dropdown jumped back to the first event after every new registration (state was lost on re-render). | Preserved the selected value when the dropdown is rebuilt; retested. | Member 2 |
-| Task 2 / 3 | AI added made-up sample attendees ("Maria Santos", "Jose Reyes") to the admin list and the database seed data, so the attendee list showed people who never registered. | Removed the sample registrations from `frontend/data.js` and `database/schema.sql`; the list now starts empty and only shows real sign-ups. | Member 2 / Member 3 |
-| Task 3 / 4 | The exam's flawed query filters `Registrations` by `Email`, but in a 3NF design the email belongs only in `Users`; a straight AI "fix" of the query would fail against our schema. | Rewrote the query to `JOIN dbo.Users` on `UserId`. | Member 3 |
-| Task 4 | A plain parameterized refactor still crashed with `NullReferenceException` when no registration exists, and still used `SELECT *` with `ExecuteScalar`. | Added `null`/`DBNull` handling, `string?` return type, `TOP (1) ... ORDER BY`, and selected only `RegistrationId`. | Member 4 |
+|:---:|:---:|:---:|:---:|
+| Task 1 | AI design assumed a full API wired to the UI in 3 hours | Scoped prototype to localStorage frontend + tested backend library | Member 1 |
+| Task 2 | Admin attendee list was on the student page (privacy issue) | Moved attendees to a separate `admin.html` page | Member 2 |
+| Task 2 | `aria-label` text did not match visible labels (WCAG 2.5.3) | Rewrote each `aria-label` to start with its visible label | Member 2 |
+| Task 2 | Color-contrast values in CSS comments were inaccurate | Recomputed all ratios with the WCAG formula; all pass AA | Member 2 |
+| Task 2 | Attendee table title was cut off on phones | Moved title above the scrolling table; retested at 360px | Member 2 |
+| Task 2 | Admin dropdown reset to the first event after each registration | Preserved the selected event when the list re-renders | Member 2 |
+| Task 2 / 3 | AI added fake sample attendees to the app and database | Removed seed registrations from `data.js` and `schema.sql` | Member 2 / Member 3 |
+| Task 3 / 4 | Flawed query searched `Registrations.Email`, which does not exist in 3NF | Rewrote query to `JOIN dbo.Users` on `UserId` | Member 3 |
+| Task 4 | Refactor still crashed on no result and used `SELECT *` | Added null/`DBNull` check and `SELECT TOP (1) RegistrationId` | Member 4 |
 
 ---
 

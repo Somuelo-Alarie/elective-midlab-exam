@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+  <!-- WCAG 2.4.1 Bypass Blocks: lets keyboard users skip the navigation -->
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
@@ -21,6 +21,10 @@
         <ul>
           <li><a href="#catalog">Events</a></li>
           <li><a href="#register">Register</a></li>
+                    <li class="nav-staff">
+            <a class="staff-btn" href="admin.html">Staff login</a>
+          </li>
+          </li>
         </ul>
       </nav>
     </div>
@@ -45,64 +49,101 @@
         </select>
       </form>
 
+      <!-- Event cards are rendered by app.js as <article> elements -->
       <div id="event-list" class="event-list" aria-live="polite"></div>
       <noscript><p>Turn on JavaScript to see the event list.</p></noscript>
     </section>
 
     <section id="register" class="wrap register" aria-labelledby="register-title">
       <h2 id="register-title">Register for an event</h2>
-      <p id="form-help">All fields are required.</p>
+      <p id="form-help" class="form-intro">Takes about a minute. Fields marked <span class="req-inline" aria-hidden="true">*</span> are required.</p>
 
-      <form id="registration-form" novalidate aria-describedby="form-help">
-        <div class="field">
-          <label for="full-name">Full name</label>
-          <input type="text" id="full-name" name="fullName" autocomplete="name" required
-                 aria-label="Full name" aria-required="true" aria-describedby="full-name-error">
-          <p class="error" id="full-name-error" role="alert"></p>
-        </div>
+      <div class="register-layout" id="register-layout">
+        <form id="registration-form" novalidate aria-describedby="form-help">
+          <fieldset class="form-group">
+            <legend class="group-title">Your details</legend>
 
-        <div class="field">
-          <label for="student-id">Student ID</label>
-          <input type="text" id="student-id" name="studentId" inputmode="numeric" required
-                 pattern="[0-9]{4}-[0-9]{5}" placeholder="2022-12345"
-                 aria-label="Student ID, format four digits dash five digits"
-                 aria-required="true" aria-describedby="student-id-hint student-id-error">
-          <p class="hint" id="student-id-hint">Format: 2022-12345</p>
-          <p class="error" id="student-id-error" role="alert"></p>
-        </div>
+            <div class="field">
+              <label for="full-name">Full name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="full-name" name="fullName" autocomplete="name" required
+                     placeholder="Juan Dela Cruz"
+                     aria-label="Full name" aria-required="true" aria-describedby="full-name-error">
+              <p class="error" id="full-name-error" role="alert"></p>
+            </div>
 
-        <div class="field">
-          <label for="email">University email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required
-                 aria-label="University email ending in at univ dot edu dot p h"
-                 aria-required="true" aria-describedby="email-hint email-error">
-          <p class="hint" id="email-hint">Must end in @univ.edu.ph</p>
-          <p class="error" id="email-error" role="alert"></p>
-        </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="student-id">Student ID <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="student-id" name="studentId" inputmode="numeric" required
+                       maxlength="10" placeholder="2022-12345" autocomplete="off"
+                       aria-label="Student ID, format four digits dash five digits"
+                       aria-required="true" aria-describedby="student-id-hint student-id-error">
+                <p class="hint" id="student-id-hint">Digits only; the dash is added for you.</p>
+                <p class="error" id="student-id-error" role="alert"></p>
+              </div>
 
-        <div class="field">
-          <label for="event-select">Event</label>
-          <select id="event-select" name="eventId" required
-                  aria-label="Event to register for" aria-required="true" aria-describedby="event-error">
-            <option value="">Choose an event</option>
-          </select>
-          <p class="error" id="event-error" role="alert"></p>
-        </div>
+              <div class="field">
+                <label for="email">University email <span class="req" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" autocomplete="email" required
+                       placeholder="name@univ.edu.ph" spellcheck="false" autocapitalize="off"
+                       aria-label="University email ending in at univ dot edu dot p h"
+                       aria-required="true" aria-describedby="email-hint email-error">
+                <p class="hint" id="email-hint">Must end in @univ.edu.ph</p>
+                <p class="suggest" id="email-suggest" hidden>
+                  <button type="button" class="link-btn" id="email-suggest-btn"></button>
+                </p>
+                <p class="error" id="email-error" role="alert"></p>
+              </div>
+            </div>
 
-        <fieldset class="field">
-          <legend>Year level</legend>
-          <div class="radio-row">
-            <span class="radio-opt"><input type="radio" id="year-1" name="yearLevel" value="1" aria-label="1st year" required> <label for="year-1">1st year</label></span>
-            <span class="radio-opt"><input type="radio" id="year-2" name="yearLevel" value="2" aria-label="2nd year"> <label for="year-2">2nd year</label></span>
-            <span class="radio-opt"><input type="radio" id="year-3" name="yearLevel" value="3" aria-label="3rd year"> <label for="year-3">3rd year</label></span>
-            <span class="radio-opt"><input type="radio" id="year-4" name="yearLevel" value="4" aria-label="4th year"> <label for="year-4">4th year</label></span>
+            <fieldset class="field" aria-describedby="year-error">
+              <legend>Year level <span class="req" aria-hidden="true">*</span></legend>
+              <div class="choice-row">
+                <span class="choice"><input type="radio" id="year-1" name="yearLevel" value="1" aria-label="1st year" required><label for="year-1">1st year</label></span>
+                <span class="choice"><input type="radio" id="year-2" name="yearLevel" value="2" aria-label="2nd year"><label for="year-2">2nd year</label></span>
+                <span class="choice"><input type="radio" id="year-3" name="yearLevel" value="3" aria-label="3rd year"><label for="year-3">3rd year</label></span>
+                <span class="choice"><input type="radio" id="year-4" name="yearLevel" value="4" aria-label="4th year"><label for="year-4">4th year</label></span>
+              </div>
+              <p class="error" id="year-error" role="alert"></p>
+            </fieldset>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <legend class="group-title">Event</legend>
+            <div class="field">
+              <label for="event-select">Event to attend <span class="req" aria-hidden="true">*</span></label>
+              <select id="event-select" name="eventId" required
+                      aria-label="Event to attend" aria-required="true" aria-describedby="event-error">
+                <option value="">Choose an event</option>
+              </select>
+              <p class="error" id="event-error" role="alert"></p>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Register</button>
+            <button type="reset" class="link-btn" id="clear-form">Clear form</button>
           </div>
-          <p class="error" id="year-error" role="alert"></p>
-        </fieldset>
+          <p id="form-status" class="status" role="status" aria-live="polite"></p>
+        </form>
 
-        <button type="submit" class="btn-primary">Register</button>
-        <p id="form-status" class="status" role="status" aria-live="polite"></p>
-      </form>
+        <aside class="event-summary" aria-labelledby="summary-title">
+          <h3 id="summary-title">Your selection</h3>
+          <div id="summary-body" aria-live="polite">
+            <p class="summary-empty">Choose an event to see its date, venue and seats left.</p>
+          </div>
+        </aside>
+      </div>
+
+      <div id="confirmation" class="confirmation" hidden>
+        <h3 id="confirm-title" tabindex="-1">You're registered</h3>
+        <dl class="confirm-details" id="confirm-details"></dl>
+        <p class="confirm-note">Show your student ID at the entrance. To cancel, email <a href="mailto:osa@univ.edu.ph">osa@univ.edu.ph</a>.</p>
+        <div class="form-actions">
+          <button type="button" class="btn-primary" id="register-another">Register for another event</button>
+          <a class="btn-secondary" href="#catalog">Back to events</a>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -110,7 +151,7 @@
     <div class="wrap">
       <p>Campus Event Management System, prototype for the Applied Generative AI laboratory exam.</p>
       <p>Questions? Email <a href="mailto:osa@univ.edu.ph">osa@univ.edu.ph</a></p>
-      <p class="staff-link"><a href="admin.html">Staff login</a></p>
+      <p class="staff-link">Event organizer or OSA staff? <a href="admin.html">Go to staff login</a></p>
     </div>
   </footer>
 
