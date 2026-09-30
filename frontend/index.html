@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Events | Browse and register</title>
+  <meta name="description" content="Browse upcoming campus events and register with your university email.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <p class="brand"><a href="#main-content">Campus Events</a></p>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#catalog">Events</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="intro wrap" aria-labelledby="intro-title">
+      <h1 id="intro-title">What's happening on campus</h1>
+      <p>Pick an event, check the seats left, and register with your <strong>@univ.edu.ph</strong> email.</p>
+    </section>
+
+    <section id="catalog" class="wrap" aria-labelledby="catalog-title">
+      <h2 id="catalog-title">Upcoming events</h2>
+
+      <form class="filter" role="search" aria-label="Filter events">
+        <label for="category-filter">Category</label>
+        <select id="category-filter" name="category" aria-label="Category filter for events">
+          <option value="all">All categories</option>
+          <option value="Academic">Academic</option>
+          <option value="Sports">Sports</option>
+          <option value="Culture">Culture</option>
+        </select>
+      </form>
+
+      <div id="event-list" class="event-list" aria-live="polite"></div>
+      <noscript><p>Turn on JavaScript to see the event list.</p></noscript>
+    </section>
+
+    <section id="register" class="wrap register" aria-labelledby="register-title">
+      <h2 id="register-title">Register for an event</h2>
+      <p id="form-help">All fields are required.</p>
+
+      <form id="registration-form" novalidate aria-describedby="form-help">
+        <div class="field">
+          <label for="full-name">Full name</label>
+          <input type="text" id="full-name" name="fullName" autocomplete="name" required
+                 aria-label="Full name" aria-required="true" aria-describedby="full-name-error">
+          <p class="error" id="full-name-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="student-id">Student ID</label>
+          <input type="text" id="student-id" name="studentId" inputmode="numeric" required
+                 pattern="[0-9]{4}-[0-9]{5}" placeholder="2022-12345"
+                 aria-label="Student ID, format four digits dash five digits"
+                 aria-required="true" aria-describedby="student-id-hint student-id-error">
+          <p class="hint" id="student-id-hint">Format: 2022-12345</p>
+          <p class="error" id="student-id-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">University email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required
+                 aria-label="University email ending in at univ dot edu dot p h"
+                 aria-required="true" aria-describedby="email-hint email-error">
+          <p class="hint" id="email-hint">Must end in @univ.edu.ph</p>
+          <p class="error" id="email-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="event-select">Event</label>
+          <select id="event-select" name="eventId" required
+                  aria-label="Event to register for" aria-required="true" aria-describedby="event-error">
+            <option value="">Choose an event</option>
+          </select>
+          <p class="error" id="event-error" role="alert"></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>Year level</legend>
+          <div class="radio-row">
+            <span class="radio-opt"><input type="radio" id="year-1" name="yearLevel" value="1" aria-label="1st year" required> <label for="year-1">1st year</label></span>
+            <span class="radio-opt"><input type="radio" id="year-2" name="yearLevel" value="2" aria-label="2nd year"> <label for="year-2">2nd year</label></span>
+            <span class="radio-opt"><input type="radio" id="year-3" name="yearLevel" value="3" aria-label="3rd year"> <label for="year-3">3rd year</label></span>
+            <span class="radio-opt"><input type="radio" id="year-4" name="yearLevel" value="4" aria-label="4th year"> <label for="year-4">4th year</label></span>
+          </div>
+          <p class="error" id="year-error" role="alert"></p>
+        </fieldset>
+
+        <button type="submit" class="btn-primary">Register</button>
+        <p id="form-status" class="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Campus Event Management System, prototype for the Applied Generative AI laboratory exam.</p>
+      <p>Questions? Email <a href="mailto:osa@univ.edu.ph">osa@univ.edu.ph</a></p>
+      <p class="staff-link"><a href="admin.html">Staff login</a></p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
